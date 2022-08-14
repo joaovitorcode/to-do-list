@@ -59,6 +59,13 @@ yarn dev
 - [x] Atualizar o _completed_ de uma tarefa
 - [x] Remover uma tarefa
 
+## Prints
+### Home Page
+![print da página inicial](https://github.com/joaovitorcode/to-do-list/blob/main/public/print_home_page.png)
+
+### User Page
+![print da página de usuário](https://github.com/joaovitorcode/to-do-list/blob/main/public/print_user_page.png)
+
 ## Versão
 
 1.0.0
