@@ -1,14 +1,19 @@
+import type { GetServerSidePropsContext, NextPage } from 'next'
 import Head from 'next/head'
 import { Header } from '../../components/Header'
 import { User } from '../../components/User'
 import { AddTask } from '../../components/AddTask'
 import { Task } from '../../components/Task'
-import { useState } from 'react'
+import { useState, ChangeEvent } from 'react'
+import { UserProps, UserTaskProps } from '../../global/types'
 
-const UserPage = ({ user, userTasks }) => {
+const UserPage: NextPage<{ user: UserProps; userTasks: UserTaskProps[] }> = ({
+  user,
+  userTasks,
+}) => {
   const [tasks, setTasks] = useState(userTasks)
 
-  function addTask({ completed }) {
+  function addTask({ completed }: { completed: boolean }) {
     const newTask = {
       userId: user.id,
       id: new Date().getTime(),
@@ -18,7 +23,7 @@ const UserPage = ({ user, userTasks }) => {
     setTasks(prevState => [newTask, ...prevState])
   }
 
-  function updateTaskTitle(currentTask, newTitle) {
+  function updateTaskTitle(currentTask: UserTaskProps, newTitle: string) {
     setTasks(prevState =>
       prevState.map(task => {
         if (task.id === currentTask.id) {
@@ -32,7 +37,7 @@ const UserPage = ({ user, userTasks }) => {
     )
   }
 
-  function updateTaskCompleted(currentTask) {
+  function updateTaskCompleted(currentTask: UserTaskProps) {
     setTasks(prevState =>
       prevState.map(task => {
         if (task.id === currentTask.id) {
@@ -46,14 +51,14 @@ const UserPage = ({ user, userTasks }) => {
     )
   }
 
-  function deleteTask(currentTask) {
+  function deleteTask(currentTask: UserTaskProps) {
     setTasks(prevState => prevState.filter(task => task.id !== currentTask.id))
   }
 
   return (
     <div>
       <Head>
-        <title>User: </title>
+        <title>User: {user.name}</title>
         <meta name="description" content="User page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -65,7 +70,7 @@ const UserPage = ({ user, userTasks }) => {
           <section className="grid grid-cols-2 gap-4 mt-4">
             <div className="w-full">
               <AddTask
-                onClick={() => addTask({ completed: false })}
+                addTask={() => addTask({ completed: false })}
                 style="bg-sky-500 hover:bg-sky-600"
               >
                 Add Doing
@@ -77,7 +82,7 @@ const UserPage = ({ user, userTasks }) => {
                     <Task
                       key={task.id}
                       task={task}
-                      updateTaskTitle={event =>
+                      updateTaskTitle={(event: ChangeEvent<HTMLInputElement>) =>
                         updateTaskTitle(task, event.target.value)
                       }
                       updateTaskCompleted={() => updateTaskCompleted(task)}
@@ -88,7 +93,7 @@ const UserPage = ({ user, userTasks }) => {
             </div>
             <div className="w-full">
               <AddTask
-                onClick={() => addTask({ completed: true })}
+                addTask={() => addTask({ completed: true })}
                 style="bg-green-500 hover:bg-green-600"
               >
                 Add Done
@@ -100,7 +105,7 @@ const UserPage = ({ user, userTasks }) => {
                     <Task
                       key={task.id}
                       task={task}
-                      updateTaskTitle={event =>
+                      updateTaskTitle={(event: ChangeEvent<HTMLInputElement>) =>
                         updateTaskTitle(task, event.target.value)
                       }
                       updateTaskCompleted={() => updateTaskCompleted(task)}
@@ -116,7 +121,7 @@ const UserPage = ({ user, userTasks }) => {
   )
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const id = context.params?.id
 
   const userResponse = await fetch(

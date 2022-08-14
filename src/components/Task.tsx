@@ -1,12 +1,12 @@
-import { DeleteTask } from '../components/DeleteTask'
-import { ToggleTask } from '../components/ToggleTask'
+import { TaskProps } from '../global/types'
+import { MdCheckCircleOutline, MdDeleteOutline } from 'react-icons/md'
 
 export function Task({
   task,
   updateTaskTitle,
   updateTaskCompleted,
   deleteTask,
-}) {
+}: TaskProps) {
   const boderColor = task.completed ? 'border-green-500' : 'border-sky-500'
   const textColor = task.completed ? 'text-green-500' : 'text-sky-500'
 
@@ -19,11 +19,18 @@ export function Task({
         value={task.title}
         onChange={updateTaskTitle}
       />
-      <DeleteTask onClick={deleteTask} style="right-14 text-red-500" />
-      <ToggleTask
+      <button
+        onClick={deleteTask}
+        className={`absolute top-[18px] right-14 text-red-500`}
+      >
+        <MdDeleteOutline size={24} />
+      </button>
+      <button
         onClick={updateTaskCompleted}
-        style={`right-4 ${textColor}`}
-      />
+        className={`absolute top-[18px] right-4 ${textColor}`}
+      >
+        <MdCheckCircleOutline size={24} />
+      </button>
     </li>
   )
 }
