@@ -21,7 +21,11 @@ Este projeto é uma lista de tarefas que utiliza dados fictícios, obtidos a par
 - [x] Prettier
 - [x] Editor Config
 
-## Setup
+## Configurações Iniciais
+
+- O setup inicial deste projeto, contendo todas as tecnologias instaladas e configuradas, foi feito em cima de outro repositório de minha autoria chamado [my-nextjs-starter](https://github.com/joaovitorcode/my-nextjs-starter).
+
+## Instalação
 
 - Para instalar o projeto:
 
